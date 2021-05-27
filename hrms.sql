@@ -3,91 +3,75 @@
 BEGIN;
 
 
-CREATE TABLE public."JobSeekers"
+CREATE TABLE public.companies
 (
-    "UserId" integer NOT NULL,
-    "FirstName" character varying NOT NULL,
-    "LastName" character varying NOT NULL,
-    "NationalityId" character varying NOT NULL,
-    "BirthDate" date NOT NULL,
-    "Verify" boolean NOT NULL,
-    "VerifyId" integer NOT NULL
+    company_name character varying(255),
+    verify boolean,
+    website character varying(255),
+    user_id integer NOT NULL,
+    phone character varying(255),
+    PRIMARY KEY (user_id)
 );
 
-CREATE TABLE public."Users"
+CREATE TABLE public.job_seekers
 (
-    "UserId" integer NOT NULL,
-    "Email" character varying NOT NULL,
-    "Password" character varying NOT NULL,
-    PRIMARY KEY ("UserId")
+    birth_date timestamp without time zone,
+    first_name character varying(255),
+    last_name character varying(255),
+    nationality_id character varying(255),
+    verify boolean,
+    user_id integer NOT NULL,
+    verify_id integer,
+    PRIMARY KEY (user_id)
 );
 
-CREATE TABLE public."SytemUsers"
+CREATE TABLE public.positions
 (
-    "UserId" integer NOT NULL,
-    "FirstName" character varying NOT NULL,
-    "LastName" character varying NOT NULL,
-    "Role" character varying NOT NULL
+    position_id integer NOT NULL,
+    position_name character varying NOT NULL,
+    PRIMARY KEY (position_id)
 );
 
-CREATE TABLE public."Companies"
+CREATE TABLE public.sytem_users
 (
-    "UserId" integer NOT NULL,
-    "CompanyName" character varying NOT NULL,
-    "Website" character varying NOT NULL,
-    "Phone" integer NOT NULL,
-    "Verify" boolean NOT NULL,
-    "VerifyId" integer NOT NULL
+    user_id integer NOT NULL,
+    first_name character varying NOT NULL,
+    last_name character varying NOT NULL,
+    role character varying NOT NULL,
+    PRIMARY KEY (user_id)
 );
 
-CREATE TABLE public."VerifyTypes"
+CREATE TABLE public.users
 (
-    "VerifyId" integer NOT NULL,
-    "UserId" integer NOT NULL,
-    "VerfiyType" character varying NOT NULL,
-    PRIMARY KEY ("VerifyId")
+    user_id integer NOT NULL,
+    email character varying(255),
+    enter_password_again character varying(255),
+    password character varying(255),
+    PRIMARY KEY (user_id)
 );
 
-CREATE TABLE public."Positions"
+CREATE TABLE public.verify_types
 (
-    "PositionId" integer NOT NULL,
-    "PositionName" character varying NOT NULL,
-    PRIMARY KEY ("PositionId")
+    verify_type character varying(255),
+    user_id integer NOT NULL,
+    PRIMARY KEY (user_id)
 );
 
-ALTER TABLE public."JobSeekers"
-    ADD FOREIGN KEY ("UserId")
-    REFERENCES public."Users" ("UserId")
+ALTER TABLE public.companies
+    ADD FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id)
     NOT VALID;
 
 
-ALTER TABLE public."SytemUsers"
-    ADD FOREIGN KEY ("UserId")
-    REFERENCES public."Users" ("UserId")
+ALTER TABLE public.job_seekers
+    ADD FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id)
     NOT VALID;
 
 
-ALTER TABLE public."Companies"
-    ADD FOREIGN KEY ("UserId")
-    REFERENCES public."Users" ("UserId")
-    NOT VALID;
-
-
-ALTER TABLE public."VerifyTypes"
-    ADD FOREIGN KEY ("UserId")
-    REFERENCES public."Users" ("UserId")
-    NOT VALID;
-
-
-ALTER TABLE public."JobSeekers"
-    ADD FOREIGN KEY ("VerifyId")
-    REFERENCES public."VerifyTypes" ("VerifyId")
-    NOT VALID;
-
-
-ALTER TABLE public."Companies"
-    ADD FOREIGN KEY ("VerifyId")
-    REFERENCES public."VerifyTypes" ("VerifyId")
+ALTER TABLE public.verify_types
+    ADD FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id)
     NOT VALID;
 
 END;
