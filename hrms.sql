@@ -20,6 +20,23 @@ CREATE TABLE public.companies
     PRIMARY KEY (user_id)
 );
 
+CREATE TABLE public.images
+(
+    image_id integer NOT NULL,
+    created_date timestamp without time zone,
+    url character varying(255),
+    PRIMARY KEY (image_id)
+);
+
+CREATE TABLE public.job_experiences
+(
+    experience_id integer NOT NULL,
+    experience_finish_year timestamp without time zone,
+    experience_start_year timestamp without time zone,
+    worked_with_company character varying(255),
+    PRIMARY KEY (experience_id)
+);
+
 CREATE TABLE public.job_postings
 (
     job_post_id integer NOT NULL,
@@ -36,6 +53,21 @@ CREATE TABLE public.job_postings
     PRIMARY KEY (job_post_id)
 );
 
+CREATE TABLE public.job_seeker_cv
+(
+    cv_id integer NOT NULL,
+    cover_letter character varying(255),
+    github_account character varying(255),
+    "lınked_in_account" character varying(255),
+    image_id integer,
+    experience_id integer,
+    user_id integer,
+    language_id integer,
+    school_id integer,
+    skill_id integer,
+    PRIMARY KEY (cv_id)
+);
+
 CREATE TABLE public.job_seekers
 (
     birth_date timestamp without time zone,
@@ -48,11 +80,37 @@ CREATE TABLE public.job_seekers
     PRIMARY KEY (user_id)
 );
 
+CREATE TABLE public.languages
+(
+    language_id integer NOT NULL,
+    language_level integer,
+    language_name character varying(255),
+    PRIMARY KEY (language_id)
+);
+
 CREATE TABLE public.positions
 (
     position_id integer NOT NULL,
     position_name character varying NOT NULL,
     PRIMARY KEY (position_id)
+);
+
+CREATE TABLE public.schools
+(
+    school_id integer NOT NULL,
+    department character varying(255),
+    graduate_year timestamp without time zone,
+    school_name character varying(255),
+    start_date timestamp without time zone,
+    PRIMARY KEY (school_id)
+);
+
+CREATE TABLE public.skills
+(
+    skill_id integer NOT NULL,
+    skill_name character varying(255),
+    technology_name character varying(255),
+    PRIMARY KEY (skill_id)
 );
 
 CREATE TABLE public.sytem_users
@@ -101,6 +159,42 @@ ALTER TABLE public.job_postings
 ALTER TABLE public.job_postings
     ADD FOREIGN KEY (user_id)
     REFERENCES public.companies (user_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (language_id)
+    REFERENCES public.languages (language_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (user_id)
+    REFERENCES public.job_seekers (user_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (skill_id)
+    REFERENCES public.skills (skill_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (image_id)
+    REFERENCES public.images (image_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (experience_id)
+    REFERENCES public.job_experiences (experience_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (school_id)
+    REFERENCES public.schools (school_id)
     NOT VALID;
 
 
