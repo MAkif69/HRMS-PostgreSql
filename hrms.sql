@@ -72,7 +72,6 @@ CREATE TABLE public.job_seeker_cv
     cv_id integer NOT NULL,
     letter_id integer,
     department_id integer,
-    image_id integer,
     experience_id integer,
     user_id integer,
     language_id integer,
@@ -217,12 +216,6 @@ ALTER TABLE public.job_seeker_cv
 ALTER TABLE public.job_seeker_cv
     ADD FOREIGN KEY (skill_id)
     REFERENCES public.skills (skill_id)
-    NOT VALID;
-
-
-ALTER TABLE public.job_seeker_cv
-    ADD FOREIGN KEY (image_id)
-    REFERENCES public.images (image_id)
     NOT VALID;
 
 
