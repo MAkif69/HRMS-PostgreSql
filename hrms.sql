@@ -20,6 +20,20 @@ CREATE TABLE public.companies
     PRIMARY KEY (user_id)
 );
 
+CREATE TABLE public.coverletters
+(
+    letter_id integer NOT NULL,
+    cover_letter character varying(255),
+    PRIMARY KEY (letter_id)
+);
+
+CREATE TABLE public.departments
+(
+    department_id integer NOT NULL,
+    department_name character varying(255),
+    PRIMARY KEY (department_id)
+);
+
 CREATE TABLE public.images
 (
     image_id integer NOT NULL,
@@ -56,15 +70,16 @@ CREATE TABLE public.job_postings
 CREATE TABLE public.job_seeker_cv
 (
     cv_id integer NOT NULL,
-    cover_letter character varying(255),
-    github_account character varying(255),
-    "lınked_in_account" character varying(255),
+    letter_id integer,
+    department_id integer,
     image_id integer,
     experience_id integer,
     user_id integer,
     language_id integer,
+    language_level_id integer,
     school_id integer,
     skill_id integer,
+    social_id integer,
     PRIMARY KEY (cv_id)
 );
 
@@ -80,10 +95,16 @@ CREATE TABLE public.job_seekers
     PRIMARY KEY (user_id)
 );
 
+CREATE TABLE public.language_levels
+(
+    language_level_id integer NOT NULL,
+    language_level integer,
+    PRIMARY KEY (language_level_id)
+);
+
 CREATE TABLE public.languages
 (
     language_id integer NOT NULL,
-    language_level integer,
     language_name character varying(255),
     PRIMARY KEY (language_id)
 );
@@ -98,7 +119,6 @@ CREATE TABLE public.positions
 CREATE TABLE public.schools
 (
     school_id integer NOT NULL,
-    department character varying(255),
     graduate_year timestamp without time zone,
     school_name character varying(255),
     start_date timestamp without time zone,
@@ -111,6 +131,14 @@ CREATE TABLE public.skills
     skill_name character varying(255),
     technology_name character varying(255),
     PRIMARY KEY (skill_id)
+);
+
+CREATE TABLE public.social_medias
+(
+    social_id integer NOT NULL,
+    github_account character varying(255),
+    "lınked_in_account" character varying(255),
+    PRIMARY KEY (social_id)
 );
 
 CREATE TABLE public.sytem_users
@@ -175,6 +203,18 @@ ALTER TABLE public.job_seeker_cv
 
 
 ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (department_id)
+    REFERENCES public.departments (department_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (language_level_id)
+    REFERENCES public.language_levels (language_level_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
     ADD FOREIGN KEY (skill_id)
     REFERENCES public.skills (skill_id)
     NOT VALID;
@@ -187,6 +227,12 @@ ALTER TABLE public.job_seeker_cv
 
 
 ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (social_id)
+    REFERENCES public.social_medias (social_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
     ADD FOREIGN KEY (experience_id)
     REFERENCES public.job_experiences (experience_id)
     NOT VALID;
@@ -195,6 +241,12 @@ ALTER TABLE public.job_seeker_cv
 ALTER TABLE public.job_seeker_cv
     ADD FOREIGN KEY (school_id)
     REFERENCES public.schools (school_id)
+    NOT VALID;
+
+
+ALTER TABLE public.job_seeker_cv
+    ADD FOREIGN KEY (letter_id)
+    REFERENCES public.coverletters (letter_id)
     NOT VALID;
 
 
