@@ -37,8 +37,9 @@ CREATE TABLE public.departments
 CREATE TABLE public.images
 (
     image_id integer NOT NULL,
-    created_date timestamp without time zone,
+    created_date date,
     url character varying(255),
+    cv_id integer NOT NULL,
     PRIMARY KEY (image_id)
 );
 
@@ -168,6 +169,12 @@ CREATE TABLE public.verify_types
 ALTER TABLE public.companies
     ADD FOREIGN KEY (user_id)
     REFERENCES public.users (user_id)
+    NOT VALID;
+
+
+ALTER TABLE public.images
+    ADD FOREIGN KEY (cv_id)
+    REFERENCES public.job_seeker_cv (cv_id)
     NOT VALID;
 
 
